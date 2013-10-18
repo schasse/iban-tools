@@ -22,6 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
 
+require 'banking_data'
 require 'iban-tools/conversion.rb'
 require 'iban-tools/iban.rb'
 require 'iban-tools/iban_rules.rb'

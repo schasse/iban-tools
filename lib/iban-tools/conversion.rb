@@ -17,19 +17,35 @@ module IBANTools
     def self.iban2local(country_code, bban)
       config = load_config country_code
 
-      local = {}
-      config.map do |key, value|
-        local[key.to_sym] = bban.scan(/^#{value[0]}/).first.sub(/^0+/, '')
-        bban.sub! /^#{value[0]}/, ''
+      if config
+        local = {}
+        config.map do |key, value|
+          local[key.to_sym] = bban.scan(/^#{value[0]}/).first.sub(/^0+/, '')
+          bban.sub! /^#{value[0]}/, ''
+        end
+        local
       end
-      local
+    end
+
+    def self.iban2bic(country_code, bban)
+      local = iban2local(country_code, bban)
+      country = country_code.downcase.to_sym
+      if local.respond_to?(:[]) && local[:blz]
+        bic = BankingData::Bank.where(locale: country, blz: local[:blz])
+          .only(:bic)
+          .first
+        bic
+      end
     end
 
     private
 
-    def self.load_config(country_code)
-      default_config = YAML.
+    def self.default_config
+      @@default_config ||= YAML.
         load(File.read(File.dirname(__FILE__) + '/conversion_rules.yml'))
+    end
+
+    def self.load_config(country_code)
       default_config[country_code]
     end
 

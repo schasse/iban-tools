@@ -2,7 +2,7 @@
   blz: ['\d{5}', "%05d"]
   account_number: ['\d{11}', "%011d"]
 'CH':
-  blz: ['[A-Z]{5}', "%s"]
+  blz: ['\d{5}', "%05d"]
   account_number: ['\d{12}', "%012d"]
 'DE':
   blz: ['\d{8}', "%08d"]

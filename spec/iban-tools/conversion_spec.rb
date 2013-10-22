@@ -27,6 +27,15 @@ module IBANTools
       end
     end
 
+    describe '::iban2bic' do
+      context 'given valid data' do
+        it 'returns valid local data' do
+          bic = Conversion.iban2bic 'DE', '763500000012341234'
+          bic.should eq('BYLADEM1ERH')
+        end
+      end
+    end
+
     describe '::checksum' do
       [ "AD1200012030200359100100",
         "AE070331234567890123456",

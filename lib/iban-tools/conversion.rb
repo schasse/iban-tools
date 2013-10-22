@@ -34,6 +34,7 @@ module IBANTools
         bic = BankingData::Bank.where(locale: country, blz: local[:blz])
           .only(:bic)
           .first
+          .first
         bic
       end
     end

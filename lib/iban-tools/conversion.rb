@@ -33,7 +33,7 @@ module IBANTools
       if local.respond_to?(:[]) && local[:blz]
         bic = BankingData::Bank.where(locale: country, blz: local[:blz])
           .only(:bic)
-          .first
+          .flatten
           .first
         bic
       end

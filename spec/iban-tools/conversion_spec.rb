@@ -29,7 +29,7 @@ module IBANTools
 
     describe '::iban2bic' do
       context 'given valid data' do
-        it 'returns valid local data' do
+        it 'returns valid BIC' do
           bic = Conversion.iban2bic 'DE', '763500000012341234'
           bic.should eq('BYLADEM1ERH')
         end

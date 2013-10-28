@@ -11,3 +11,6 @@ rvm:
   - rbx-19mode
   - rbx
 script: rspec
+gemfile:
+  - gemfiles/non_BIC.gemfile
+  - gemfiles/BIC.gemfile

@@ -5,8 +5,8 @@ module IBANTools
       config = load_config country_code
 
       bban = config.map do |key, value|
-        value[1] % data[key.to_sym]
-      end.join('')
+        value[1] % data[key.to_sym].gsub(/^0+/, '')
+      end.join('').gsub(/\s/, '0')
 
       check_digits = "%02d" % checksum(country_code, bban)
 
@@ -21,7 +21,7 @@ module IBANTools
         local = {}
         config.map do |key, value|
           local[key.to_sym] = bban.scan(/^#{value[0]}/).first.sub(/^0+/, '')
-          bban.sub! /^#{value[0]}/, ''
+          bban.sub!(/^#{value[0]}/, '')
         end
         local
       end

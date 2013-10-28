@@ -46,7 +46,12 @@ module IBANTools
       context 'given valid data' do
         it 'returns valid BIC' do
           bic = Conversion.iban2bic 'DE', '763500000012341234'
-          bic.should eq('BYLADEM1ERH')
+          begin
+            require 'banking_data'
+            bic.should eq('BYLADEM1ERH')
+          rescue LoadError
+            bic.should eq(nil)
+          end
         end
       end
     end

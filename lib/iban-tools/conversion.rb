@@ -32,10 +32,10 @@ module IBANTools
       local = iban2local(country_code, bban)
       country = country_code.downcase.to_sym
       if local.respond_to?(:[]) && local[:blz]
-        bic = BankingData::Bank.where(:locale => country, :blz => local[:blz])
-          .only(:bic)
-          .flatten
-          .first
+        bic = BankingData::Bank.where(:locale => country, :blz => local[:blz]).
+          only(:bic).
+          flatten.
+          first
         bic
       end
     rescue LoadError

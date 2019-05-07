@@ -13,7 +13,7 @@ module IBANTools
 
       it "should validate IBAN code" do
         # Using example from http://en.wikipedia.org/wiki/IBAN#Calculating_and_validating_IBAN_checksums
-        IBAN.valid?( "GB82WEST12345698765432", @rules ).should be_true
+        IBAN.valid?( "GB82WEST12345698765432", @rules ).should be_truthy
       end
 
       it "should reject IBAN code with invalid characters" do
@@ -42,18 +42,18 @@ module IBANTools
       end
 
       it "should reject IBAN code with invalid check digits" do
-        IBAN.valid?( "GB99 WEST 1234 5698 7654 32", @rules ).should be_false
+        IBAN.valid?( "GB99 WEST 1234 5698 7654 32", @rules ).should be_falsey
 
         IBAN.new("GB99 WEST 1234 5698 7654 32").validation_errors(@rules).
           should == [:bad_check_digits]
       end
 
       it "should handle non-string ibans" do
-        IBAN.valid?( 12345698765432 ).should be_false
+        IBAN.valid?( 12345698765432 ).should be_falsey
       end
 
       it "should reject IBAN which is nil" do
-        IBAN.valid?( nil ).should be_false
+        IBAN.valid?( nil ).should be_falsey
       end
     end
 
@@ -97,10 +97,12 @@ module IBANTools
         "AE070331234567890123456",
         "AL47212110090000000235698741",
         "AT611904300234573201",
+        "AZ21NABZ00000000137010001944",
         "BA391290079401028494",
         "BE68539007547034",
         "BG80BNBG96611020345678",
         "BH67BMAG00001299123456",
+        "BR9700360305000010009795493P1",
         "CH9300762011623852957",
         "CY17002001280000001200527600",
         "CZ6508000000192000145399",
@@ -123,6 +125,7 @@ module IBANTools
         "IL620108000000099999999",
         "IS140159260076545510730339",
         "IT60X0542811101000000123456",
+        "JO94CBJO0010000000000131000302",
         "KW81CBKU0000000000001234560101",
         "KZ86125KZT5004100100",
         "LB62099900000001001901229114",
@@ -131,6 +134,7 @@ module IBANTools
         "LU280019400644750000",
         "LV80BANK0000435195001",
         "MC1112739000700011111000h79",
+        "MD24AG000225100013104168",
         "ME25505000012345678951",
         "MK07300000000042425",
         "MR1300020001010000123456753",
@@ -139,7 +143,9 @@ module IBANTools
         "NL91ABNA0417164300",
         "NO9386011117947",
         "PL27114020040000300201355387",
+        "PK36SCBL0000001123456702",
         "PT50000201231234567890154",
+        "QA58DOHB00001234567890ABCDEFG",
         "RO49AAAA1B31007593840000",
         "RS35260005601001611379",
         "SA0380000000608010167519",
@@ -148,7 +154,22 @@ module IBANTools
         "SK3112000000198742637541",
         "SM86U0322509800000000270100",
         "TN5914207207100707129648",
-        "TR330006100519786457841326"
+        "TR330006100519786457841326",
+        "UA173052990006762462622943782",
+        "MG4012341234123412341234123",
+        "BY23ABCD12341234567890123456",
+        "AZ96AZEJ00000000001234567890",
+        "BR1500000000000010932840814P2",
+        "VG21PACG0000000123456789",
+        "CV64000500000020108215144",
+        "CR37012600000123456789",
+        "DO22ACAU00000000000123456789",
+        "EG2100037000671002392189379",
+        "GA2140021010032001890020126",
+        "CI93CI0080111301134291200589",
+        "JO71CBJO0000000000001234567890",
+        "XK051212012345678906",
+        "SC52BAHL01031234567890123456USD"
       ].each do |iban_code|
         describe iban_code do
           it "should be valid" do
@@ -160,7 +181,7 @@ module IBANTools
       it "should fail known pattern violations" do
         # This IBAN has valid check digits
         # but should fail because of pattern violation
-        IBAN.valid?("RO7999991B31007593840000").should be_false
+        IBAN.valid?("RO7999991B31007593840000").should be_falsey
       end
 
     end

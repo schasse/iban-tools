@@ -42,8 +42,15 @@ module IBANTools
       require 'banking_data'
       local = iban2local(country_code, bban)
       country = country_code.downcase.to_sym
-      blz = if local.respond_to?(:[]) && local[:blz]
-        bic = BankingData::Bank.where(:locale => country, :blz => local[:blz]).
+      blz_attribute =
+        if country.to_s.upcase == 'DE'
+          :blz
+        else
+          :bank_code
+        end
+      if local.respond_to?(:[]) && local[blz_attribute]
+        bic =
+          BankingData::Bank.where(locale: country, blz: local[blz_attribute]).
           only(:bic).
           flatten.
           first
